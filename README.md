@@ -9,7 +9,7 @@
 ## Execution:
 
 ### Scrapping Narrators data: 
-* execute: ```python scrape_narrators.py```
+* execute: ```python scripts/scrape_narrators.py```
 
 ```bash
 usage: scrape_narrators.py [-h] [--max-id MAX_ID] [--total-available TOTAL_AVAILABLE] [--data-dir DATA_DIR] [--log-dir LOG_DIR]
