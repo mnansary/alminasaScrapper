@@ -46,6 +46,7 @@ def scrpe(max_id_to_search: int, total_available: int, data_dir: str) -> None:
             SUCCESS = True
         else:
             logger.warning(f"Excluding Narrator as no data found: {narrator_id}")
+            narrator_id += 1
         
         if SUCCESS:
             commentary_result = search_commentary(narrator_id)
