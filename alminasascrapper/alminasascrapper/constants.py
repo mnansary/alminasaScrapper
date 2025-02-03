@@ -1,0 +1,1 @@
+MSG_TIME='Program Start time: {}'
