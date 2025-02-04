@@ -17,7 +17,7 @@ def parse_arguments() -> argparse.Namespace:
     """
     parser = argparse.ArgumentParser(description="Scrape narrators' data and commentary.")
     
-    parser.add_argument('--max-id', type=int, default=50000, help="Maximum narrator ID to search for.")
+    parser.add_argument('--max-id', type=int, default=150000, help="Maximum narrator ID to search for.")
     parser.add_argument('--total-available', type=int, default=11189, help="Total number of available narrators.")
     parser.add_argument('--data-dir', type=str, default="data/narrator_data", help="Directory to store scraped data.")
     parser.add_argument('--log-dir', type=str, default="logs/", help="Directory to store log files.")
@@ -40,29 +40,32 @@ def scrpe(max_id_to_search: int, total_available: int, data_dir: str) -> None:
     while narrator_id < max_id_to_search:
         SUCCESS = False
         narrators_result = search_narrators(narrator_id)
-        
-        # Check if data was found for the narrator
-        if len(narrators_result["responses"][0]["hits"]["hits"]) > 0:
-            SUCCESS = True
-        else:
-            logger.warning(f"Excluding Narrator as no data found: {narrator_id}")
-            narrator_id += 1
-        
-        if SUCCESS:
-            commentary_result = search_commentary(narrator_id)
-            results = {narrator_id: {"about": narrators_result, "commentary": commentary_result}}
+        try:
+            # Check if data was found for the narrator
+            if len(narrators_result["responses"][0]["hits"]["hits"]) > 0:
+                SUCCESS = True
+            else:
+                logger.warning(f"Excluding Narrator as no data found: {narrator_id}")
+                narrator_id += 1
             
-            # Save results to JSON file
-            with open(os.path.join(data_dir, f"{narrator_id}.json"), "w", encoding="utf-8") as f:
-                json.dump(results, f, indent=2, ensure_ascii=False)
-            
-            logger.info(f"Data Retrieved for narrator id: {narrator_id}, data count: {data_count}")
-            data_count += 1
-            narrator_id += 1
+            if SUCCESS:
+                commentary_result = search_commentary(narrator_id)
+                results = {narrator_id: {"about": narrators_result["responses"][0]["hits"]["hits"][0], 
+                                         "commentary": commentary_result["responses"][0]["hits"]["hits"]}}
+                
+                # Save results to JSON file
+                with open(os.path.join(data_dir, f"{narrator_id}.json"), "w", encoding="utf-8") as f:
+                    json.dump(results, f, indent=2, ensure_ascii=False)
+                
+                logger.info(f"Data Retrieved for narrator id: {narrator_id}, data count: {data_count}")
+                data_count += 1
+                narrator_id += 1
 
-            if data_count >= total_available:
-                logger.info("Reached Max Narrators. Finished")
-                break
+                if data_count >= total_available:
+                    logger.info("Reached Max Narrators. Finished")
+                    break
+        except Exception as e:
+            logger.error(f"Error: {narrator_id} details:{e}")
 
 def configure_logger(log_dir: str) -> None:
     """
