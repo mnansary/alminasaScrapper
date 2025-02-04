@@ -67,33 +67,24 @@ def scrpe(max_id_to_search: int, total_available: int, data_dir: str) -> None:
         except Exception as e:
             logger.error(f"Error: {narrator_id} details:{e}")
 
-def configure_logger(log_dir: str) -> None:
-    """
-    Configure logging for the script, including setting up file and console logging.
-
-    :param log_dir: Directory where the log files will be saved.
-    
-    :return: None
-    """
-    now = datetime.datetime.now()
-    today_yyyymmdd = now.strftime('%Y_%m_%d')
-    log_file = os.path.join(log_dir, "scrapper_" + str(today_yyyymmdd) + ".log")
-    
-    logger.add(log_file)
-    logger.configure(
-        handlers=[
-            {"sink": sys.stderr, "level": "WARNING"},
-            {"sink": sys.stdout, "level": "INFO"}
-        ]
-    )
-
 
 if __name__ == "__main__":
     # Parse command-line arguments
     args = parse_arguments()
 
     # Configure logger with the specified log directory
-    configure_logger(args.log_dir)
+    now = datetime.datetime.now()
+    today_yyyymmdd = now.strftime('%Y_%m_%d')
+    log_file = os.path.join(args.log_dir, "scrapper_" + str(today_yyyymmdd) + ".log")
+    
+    logger.add(log_file)
+    logger.configure(
+    handlers=[
+        {"sink": sys.stderr, "level": "WARNING"},
+        {"sink": sys.stdout, "level": "INFO"},
+        {"sink": log_file, "level": "INFO"},  # Ensure logs go to file
+    ]
+    )
 
     # Log the current time when the script starts
     now = datetime.datetime.now()
