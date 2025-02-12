@@ -1,3 +1,5 @@
 requests
 brotli
 loguru
+pandas
+tqdm
