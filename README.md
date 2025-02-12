@@ -24,3 +24,24 @@ optional arguments:
   --data-dir DATA_DIR   Directory to store scraped data.
   --log-dir LOG_DIR     Directory to store log files.
 ```
+
+### Scrapping Hadith data:
+
+* execute: ```python scripts/scrape_hadith.py```
+
+```bash
+usage: scrape_hadith.py [-h] [--total_available TOTAL_AVAILABLE] [--scrape_size SCRAPE_SIZE] [--data_dir DATA_DIR] [--log_dir LOG_DIR]
+
+Scrape narrators' data and commentary.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --total_available TOTAL_AVAILABLE
+                        Total number of available hadiths.
+  --scrape_size SCRAPE_SIZE
+                        Total number of hadiths to scrape
+  --data_dir DATA_DIR   Directory to store scraped data.
+  --log_dir LOG_DIR     Directory to store log files.
+```
+
+* formatting bookwise: notebooks/format_hadith_data.ipynb
