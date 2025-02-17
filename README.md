@@ -25,6 +25,8 @@ optional arguments:
   --log-dir LOG_DIR     Directory to store log files.
 ```
 
+* formatting narrator data bookwise: notebooks/format_narrator_data.ipynb
+
 ### Scrapping Hadith data:
 
 * execute: ```python scripts/scrape_hadith.py```
@@ -45,3 +47,19 @@ optional arguments:
 ```
 
 * formatting bookwise: notebooks/format_hadith_data.ipynb
+
+### Scrapping Sharh Data:
+
+* execute: ```python scripts/scrape_explaination.py```
+
+```bash
+usage: scrape_explaination.py [-h] [--data_csv DATA_CSV] [--data_dir DATA_DIR] [--log_dir LOG_DIR]
+
+Scrape explaination data
+
+optional arguments:
+  -h, --help           show this help message and exit
+  --data_csv DATA_CSV  Path of bookwise hadth iden data
+  --data_dir DATA_DIR  Directory to store scraped data.
+  --log_dir LOG_DIR    Directory to store log files
+```
