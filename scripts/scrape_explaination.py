@@ -19,7 +19,7 @@ def parse_arguments() -> argparse.Namespace:
     :return: Namespace object containing parsed arguments.
     """
     parser = argparse.ArgumentParser(description="Scrape explaination data")
-    parser.add_argument('--data_csv', type=str, default="/home/ansary/work/hadith/hadith_data_iden_bookwise.csv", help="Path of bookwise hadth iden data")
+    parser.add_argument('--data_csv', type=str, default="data/hadith_data_iden_bookwise.csv", help="Path of bookwise hadth iden data")
     parser.add_argument('--data_dir', type=str, default="data/explaination_data", help="Directory to store scraped data.")
     parser.add_argument('--log_dir', type=str, default="logs/", help="Directory to store log files.")
 
@@ -43,13 +43,15 @@ def scrpe(data_dir: str,data_csv:str) -> None:
         logger.info(f"Scariping explainations of Hadith book:{book}")
         for idx in tqdm(range(len(bdf))):
             hadith=bdf.iloc[idx,1]
-            data=search_explanation(hadith)
-            try:
-                _data=data["responses"][0]["hits"]["hits"]
-                with open(os.path.join(save_dir, f"{hadith}.json"), "w", encoding="utf-8") as f:
-                    json.dump({f"{hadith}":_data}, f, indent=2, ensure_ascii=False)
-            except Exception as e:
-                logger.error(f"Error scraping explaination for hadith {hadith}: {e}")
+            _save_data_json=os.path.join(save_dir, f"{hadith}.json")
+            if not os.path.exists(_save_data_json):
+                data=search_explanation(hadith)
+                try:
+                    _data=data["responses"][0]["hits"]["hits"]
+                    with open(_save_data_json, "w", encoding="utf-8") as f:
+                        json.dump({f"{hadith}":_data}, f, indent=2, ensure_ascii=False)
+                except Exception as e:
+                    logger.error(f"Error scraping explaination for hadith {hadith}: {e}")
 
 
 if __name__ == "__main__":
