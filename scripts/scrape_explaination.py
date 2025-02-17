@@ -48,8 +48,11 @@ def scrpe(data_dir: str,data_csv:str) -> None:
                 data=search_explanation(hadith)
                 try:
                     _data=data["responses"][0]["hits"]["hits"]
-                    with open(_save_data_json, "w", encoding="utf-8") as f:
-                        json.dump({f"{hadith}":_data}, f, indent=2, ensure_ascii=False)
+                    if len(_data)>0:
+                        with open(_save_data_json, "w", encoding="utf-8") as f:
+                            json.dump({f"{hadith}":_data}, f, indent=2, ensure_ascii=False)
+                    else:
+                        logger.info(f"No data found for:{hadith}")
                 except Exception as e:
                     logger.error(f"Error scraping explaination for hadith {hadith}: {e}")
 
