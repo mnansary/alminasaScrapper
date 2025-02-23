@@ -3,3 +3,4 @@ brotli
 loguru
 pandas
 tqdm
+beautifulsoup4
