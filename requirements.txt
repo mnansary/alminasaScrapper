@@ -4,3 +4,4 @@ loguru
 pandas
 tqdm
 beautifulsoup4
+arabic_reshaper
